@@ -28,6 +28,7 @@ public class StudentPresenter implements StudentContract.Presenter {
   @Override
   public void onStart() {
     Log.e(TAG, "onStart()");
+    state.data="0";
     GradeToStudentState savedState = getStateFromNextScreen();
     if (savedState != null) {
       model.onDataFromNextScreen(savedState.data);
