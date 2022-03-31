@@ -82,6 +82,7 @@ public class GradePresenter implements GradeContract.Presenter {
   @Override
   public void onHigherGradeBtnClicked() {
     String[] data = state.data.split(",");
+
     GradeToStudentState state = new GradeToStudentState();
     state.data = data[1];
     mediator.setPreviousGradeScreenState(state);
@@ -93,6 +94,7 @@ public class GradePresenter implements GradeContract.Presenter {
   @Override
   public void onLowerGradeBtnClicked() {
     String[] data = state.data.split(",");
+
     GradeToStudentState state = new GradeToStudentState();
     state.data = data[0];
     mediator.setPreviousGradeScreenState(state);
