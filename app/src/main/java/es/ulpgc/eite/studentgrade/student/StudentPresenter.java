@@ -28,7 +28,13 @@ public class StudentPresenter implements StudentContract.Presenter {
   @Override
   public void onStart() {
     Log.e(TAG, "onStart()");
-
+    GradeToStudentState savedState = getStateFromNextScreen();
+    if (savedState != null) {
+      model.onDataFromNextScreen(savedState.data);
+      state.data=model.getStoredData();
+      view.get().onDataUpdated(state);
+      // TODO: include code here if is necessary
+    }
     // TODO: include code here if is necessary
 
   }
@@ -44,16 +50,19 @@ public class StudentPresenter implements StudentContract.Presenter {
   @Override
   public void onResume() {
     Log.e(TAG, "onResume()");
-
-    // use passed state if is necessary
     GradeToStudentState savedState = getStateFromNextScreen();
     if (savedState != null) {
       model.onDataFromNextScreen(savedState.data);
       state.data=model.getStoredData();
       view.get().onDataUpdated(state);
       // TODO: include code here if is necessary
-
     }
+    if(state.data!=null) {
+      model.onDataFromNextScreen(state.data);
+      view.get().onDataUpdated(state);
+    }
+    // use passed state if is necessary
+
     // TODO: include code here if is necessary
 
   }
@@ -109,7 +118,7 @@ public class StudentPresenter implements StudentContract.Presenter {
     // TODO: include code here if is necessary
     StudentToGradeState state = new StudentToGradeState();
     state.data = "5,6";
-    mediator.setNextStudentScreenState(state);
+    passStateToNextScreen(state);
     view.get().navigateToNextScreen();
 
   }

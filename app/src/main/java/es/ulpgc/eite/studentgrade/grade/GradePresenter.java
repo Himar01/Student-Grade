@@ -97,7 +97,7 @@ public class GradePresenter implements GradeContract.Presenter {
 
     GradeToStudentState state = new GradeToStudentState();
     state.data = data[0];
-    mediator.setPreviousGradeScreenState(state);
+    passStateToPreviousScreen(state);
     view.get().navigateToPreviousScreen();
     // TODO: include code here if is necessary
 
