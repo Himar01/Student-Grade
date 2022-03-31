@@ -1,0 +1,122 @@
+package es.ulpgc.eite.studentgrade.grade;
+
+import java.lang.ref.WeakReference;
+
+import es.ulpgc.eite.studentgrade.app.AppMediator;
+import es.ulpgc.eite.studentgrade.app.GradeToStudentState;
+import es.ulpgc.eite.studentgrade.app.StudentToGradeState;
+
+/**
+ * Created by Luis on marzo, 2022
+ */
+public class GradePresenter implements GradeContract.Presenter {
+
+  public static String TAG = "StudentGrade.GradePresenter";
+
+  private WeakReference<GradeContract.View> view;
+  private GradeState state;
+  private GradeContract.Model model;
+  private AppMediator mediator;
+
+  public GradePresenter(AppMediator mediator) {
+    this.mediator = mediator;
+    state = mediator.getGradeState();
+  }
+
+  @Override
+  public void onStart() {
+    // Log.e(TAG, "onStart()");
+
+    // TODO: include code here if is necessary
+
+    // use passed state if is necessary
+    StudentToGradeState savedState = getStateFromPreviousScreen();
+    if (savedState != null) {
+      model.onDataFromPreviousScreen(savedState.data);
+      state.data = model.getStoredData();
+      // TODO: include code here if is necessary
+
+    }
+    view.get().onDataUpdated(state);
+    // TODO: include code here if is necessary
+
+  }
+
+  @Override
+  public void onRestart() {
+    // Log.e(TAG, "onRestart()");
+    // TODO: include code here if is necessary
+  }
+
+  @Override
+  public void onResume() {
+    // Log.e(TAG, "onResume()");
+    model.onDataFromPreviousScreen(state.data);
+    view.get().onDataUpdated(state);
+    // TODO: include code here if is necessary
+
+  }
+
+  @Override
+  public void onBackPressed() {
+    // Log.e(TAG, "onBackPressed()");
+
+    // TODO: include code here if is necessary
+  }
+
+  @Override
+  public void onPause() {
+    // Log.e(TAG, "onPause()");
+
+    // TODO: include code here if is necessary
+  }
+
+  @Override
+  public void onDestroy() {
+    // Log.e(TAG, "onDestroy()");
+
+    // TODO: include code here if is necessary
+  }
+
+
+  @Override
+  public void onHigherGradeBtnClicked() {
+    String[] data = state.data.split(",");
+    GradeToStudentState state = new GradeToStudentState();
+    state.data = data[1];
+    mediator.setPreviousGradeScreenState(state);
+    view.get().navigateToPreviousScreen();
+    // TODO: include code here if is necessary
+
+  }
+
+  @Override
+  public void onLowerGradeBtnClicked() {
+    String[] data = state.data.split(",");
+    GradeToStudentState state = new GradeToStudentState();
+    state.data = data[0];
+    mediator.setPreviousGradeScreenState(state);
+    view.get().navigateToPreviousScreen();
+    // TODO: include code here if is necessary
+
+  }
+
+  private void passStateToPreviousScreen(GradeToStudentState state) {
+    mediator.setPreviousGradeScreenState(state);
+  }
+
+  private StudentToGradeState getStateFromPreviousScreen() {
+    return mediator.getPreviousGradeScreenState();
+  }
+
+  @Override
+  public void injectView(WeakReference<GradeContract.View> view) {
+    this.view = view;
+  }
+
+  @Override
+  public void injectModel(GradeContract.Model model) {
+    this.model = model;
+  }
+
+}
